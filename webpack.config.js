@@ -2,14 +2,18 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+
 // const merge = require('webpack-merge');
 // const { ROOT_DIR } = require('../../constants/build');
 
 const defaultConfig = {
-  mode: 'development',
+  context: path.resolve(__dirname, '.'),
+  // mode: 'development',
+  mode: 'production',
   entry: {
     app: [
-      './src/index.js',
+      './src/index.tsx',
     ]
   },
   output: {
@@ -17,6 +21,7 @@ const defaultConfig = {
     filename: '[name].[hash].js',
     publicPath: '/',
   },
+  devtool: 'eval-source-map',
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ],
     // plugins: [
@@ -43,9 +48,10 @@ const defaultConfig = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.tsx?$/,
         use: [
           'babel-loader',
+          // 'junmin.js',
           // {
           //   loader: 'ts-loader',
           //   options: {
@@ -74,6 +80,18 @@ const defaultConfig = {
     new HtmlWebpackPlugin({
       filename: 'app.html',
       template: path.join(__dirname, 'public/index.html'),
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      async: true,
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
+      },
+      eslint: {
+        files: './src/**/*',
+      },
     }),
   ],
 };

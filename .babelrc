@@ -2,11 +2,19 @@
   "presets": [
     "@babel/preset-react",
     [
+      "@babel/preset-typescript", {
+        "onlyRemoveTypeImports": true // this is important for proper files watching
+      }
+    ],
+    [
       "@babel/preset-env", {
         "modules": false,
         "useBuiltIns": "usage",
         "corejs": "^2"
       }
     ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
   ]
 }
