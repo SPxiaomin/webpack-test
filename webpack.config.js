@@ -9,8 +9,8 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const defaultConfig = {
   context: path.resolve(__dirname, '.'),
-  // mode: 'development',
-  mode: 'production',
+  mode: 'development',
+  // mode: 'production',
   entry: {
     app: [
       './src/index.tsx',
@@ -62,6 +62,14 @@ const defaultConfig = {
         exclude: /node_modules/,
       },
       {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'postcss-loader', }
+        ],
+      },
+      {
         test: /\.(png|jpe?g|gif)$/,
         loader: 'url-loader',
         options: {
@@ -91,6 +99,9 @@ const defaultConfig = {
       },
       eslint: {
         files: './src/**/*',
+        // options: {
+        //   fix: true
+        // }
       },
     }),
   ],
